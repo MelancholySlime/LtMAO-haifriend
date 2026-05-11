@@ -284,7 +284,7 @@ def check_version(label):
         title = f'LtMAO-hai V{VERSION}'
         label.setText(title)
         # read online
-        remote_file = 'https://raw.githubusercontent.com/tarngaina/LtMAO/hai/version'
+        remote_file = 'https://raw.githubusercontent.com/MelancholySlime/LtMAO-haifriend/hai/version'
         get = requests.get(remote_file)
         get.raise_for_status()
         NEW_VERSION = get.text
@@ -300,7 +300,7 @@ def sync_changelog(changelog):
     local_file = './pref/changelog.txt'
     try:
         # read online
-        url=f'https://api.github.com/repos/tarngaina/ltmao/commits?sha=hai&per_page=100'
+        url=f'https://api.github.com/repos/MelancholySlime/LtMAO-haifriend/commits?sha=hai&per_page=100'
         commits=requests.get(url).json()
         for commit in commits:
             commit = commit['commit']
