@@ -1,0 +1,579 @@
+[2026-05-11T15:54:14Z] by Konari:
+11052026.0
+Migration UI with Ltmao-pan, added bumpath_preprocess
+
+[2026-03-29T03:27:02Z] by An:
+Merge pull request #27 from GuiSaiUwU/hai
+
+Lemon3D SKN Export: Fix wrong auto prune | Sborf: Fix tool call
+
+[2026-03-29T03:22:36Z] by GuiSaiUwU:
+28032026.1
+Add QMessageBox to confirm if the user wanna replace the current loaded bnk info
+Moved Save As to be the last one instead of being in the middle.
+Old: [Load, Save As, Clear]
+New: [Load, Clear, Save As]
+
+[2026-03-29T02:28:34Z] by GuiSaiUwU:
+28032026.0
+
+[2026-03-29T02:28:01Z] by GuiSaiUwU:
+Fix auto prune prioritizing 4 least values because of wrong use of sort + slicing
+
+[2026-03-29T02:26:37Z] by GuiSaiUwU:
+fix wrong sborf tool call (skin_fix instead of maskdata_adapt)
+
+[2025-11-12T17:37:10Z] by tarngaina:
+13112025.0:
+- cslmao:
++ Updated mod-tools.exe to version 2025-11-02.
++ Fix auto py to bin convert error.
+- tools: ImageMagick now convert png to dds with correct alpha channel.
+
+[2025-10-19T11:30:31Z] by tarngaina:
+19102025.2:
+- ritobin: Small fixes for better display.
+
+[2025-10-19T11:23:52Z] by tarngaina:
+19102025.1:
+- ritobin: Fix [WinError 206] when convert a folder.
+
+[2025-10-19T01:51:19Z] by tarngaina:
+19102025.0:
+- ritobin: Better float format.
+- pyRitoFile: Correct hash string with length checking.
+
+[2025-10-18T16:04:11Z] by tarngaina:
+18102025.0:
+- ritobin:
++ Revert back to use ritobin_cli.exe from GuiSai.
++ Removed .nx.py, use .cdtb.py instead.
+
+[2025-10-05T05:52:27Z] by tarngaina:
+05102025:
+- lemon_maya: Fix import mapgeo without bucket grid problem.
+
+[2025-10-02T10:38:11Z] by tarngaina:
+021020205.0:
+- hash_hel;per: Now download hashes in multi threads.
+- ritobin: Now convert .cdtb.py to non extension bin.
+
+[2025-09-27T11:46:35Z] by tarngaina:
+27092025.0:
+- bumpath: No longer nuke output path.
+
+[2025-09-21T05:41:15Z] by tarngaina:
+21092025.0:
+- cli.py: bnk2dir, wpk2dir now find events and bin file to unpack.
+- tools: Convert dds now auto calculate mipmaps number.
+- pyRitoFile.wad: Add more known extension.
+- bnk_tool: Now list all wems that failed to parse at the bottom of audio tree.
+
+[2025-09-06T14:54:30Z] by tarngaina:
+06092025.0:
+- pyrRitoFile.wad: Added some new known file extension.
+- infinityQT.bin: Improved display contents.
+- hash_helper: Improved game file extract.
+
+[2025-09-02T13:42:39Z] by tarngaina:
+02092025.0:
+- InifinityQT:
++ tex: Image now are zoomable.
++ Now support preview BIN file.
+
+[2025-09-01T14:35:52Z] by tarngaina:
+01092025.0:
+InfinityQT: Now support preview WEM file.
+
+[2025-08-30T15:32:06Z] by tarngaina:
+30082025.0:
+- cli.py: bnk/wpk <-> dir functions now support dst.
+- Added new tool InfinityQT for view files, current support: skn, tex.
+
+[2025-08-26T03:51:02Z] by tarngaina:
+26082025.1:
+- bumpath: Fixed the problem that combined bin will remove all links instead of only combined links.
+
+[2025-08-26T03:25:15Z] by tarngaina:
+26082025.0:
+- bnk_tool: Fixed ranseq container does not list wems of switch container child. (Irelia Q Cast)
+- pyntex: Remove limit entry type, allow to parse any entry in any bins.
+- Added new tool: bumpath, which is a repath copy.
+
+[2025-08-04T15:08:57Z] by tarngaina:
+04082025.0:
+- qtGUI:
++ Tab index are now saved for no_skin and lemon3d.
++ Optimized drag and drop files for no_skin and bnk_tool.
+
+[2025-08-03T15:19:19Z] by tarngaina:
+03082025.0:
+- pyntex: Fix case sensitive path when parse a folder.
+
+[2025-07-27T12:14:51Z] by tarngaina:
+27072025.0
+- qtGUI:
++ App geometry is now saved.
++ Fix NoneType error when use default folder.
+
+[2025-07-24T13:50:20Z] by tarngaina:
+24072025.0:
+- Icon changes:
++ appicon.ico is moved to each theme folder, allow theme to change icon.
++ winLT: now create shortcut or set explorer context using saved theme icon.
++ qtGUI: theme icon change also apply to taskbar icon and tray icon.
+- cli.py:
++ ensure_curdir() now use os.path.abspath.
++ Added new tool "sync" to sync all hashes.
+- no_skin: SKIPS.json is saved to pref instead of res.
+- pyntex: Fix comparing sep problem when using os.path.relpath.
+- Support drag and drop:
++ cslmao: Drag in folder or fantome/zip files to import.
++ hash_helper: Drag in folder or files to extract hash.
++ mask_viewer: Drag in skl or bin to auto set matching text.
++ no_skin_full: Drag in folder to set Champion folders.
++ no_skin_lite: Drag in folder or bins to auto set matching skin0 and skinx text.
++ lemon_fbx: Drag in fbx, skl, skn or anm folder to auto set matching text.
++ wad_tool: Drag in wad dirs or wad files to pack, unpack.
++ texsmart: Drag in dds or tex to convert them.
++ wiwave: Drag in wav or wem to convert them.
++ bnk_tool: Drag in audio bnk/wpk, event bnk or bin to auto set matching text.
+
+[2025-07-13T06:33:21Z] by tarngaina:
+13072025.1:
+- ritobin: Correct float format again.
+
+[2025-07-13T06:17:44Z] by tarngaina:
+13072025.0:
+- cslmao:
++ Adjusted enabled/disabled mod's info background.
++ Updated mod-tools.exe to 2025-06-26-a2fb470.
+- ritobin: Correct float format.
+
+[2025-07-06T05:57:26Z] by tarngaina:
+06072025.0:
+- Added lepath: Improved path join and extension change.
+- cslmao: Changed mod layout to grid.
+
+[2025-07-02T15:57:43Z] by tarngaina:
+02072025.1:
+- pyntex: Added parsing animationGraphData.
+
+[2025-07-02T15:49:13Z] by tarngaina:
+02072025.0:
+- pyntex: Correct path comparsion.
+
+[2025-06-29T14:33:10Z] by tarngaina:
+29062025.0:
+- lemon_maya: Fixed import/export/check material shelf buttons not working.
+
+[2025-06-27T14:31:07Z] by tarngaina:
+27062025.0:
+- pyRitoFile.bin:
++ Fix read/write PTCH bin not working.
++ Unhash now work on patches of PTCH bin.
+- ritobin:
++ Fixed read hash 0x00000000 as empty "".
++ Added read/write PTCH bin.
++ Added bin without extension <-> .nx.py to bin <-> py convert func.
+- winLT: Removed context: ritobin convert to bin without extension.
+
+[2025-06-25T15:33:09Z] by tarngaina:
+25062025.2:
+- hash_helper, pynrex: Add "None" data safe check for embed/pointer/option.
+
+[2025-06-25T10:38:14Z] by tarngaina:
+25062025.1:
+- winLT: Fix set context menu button throw [WinError 2].
+
+[2025-06-25T10:35:23Z] by tarngaina:
+25062025.0:
+- hash_helper: Fix clear extract hashes button not working.
+- ritobin: Fix wrong read/write null pointer.
+
+[2025-06-24T14:59:18Z] by tarngaina:
+24062025.1:
+- lemon_maya: All standard surface materials created by importing now auto have specular value set to 0.
+
+[2025-06-24T13:40:17Z] by tarngaina:
+24062025.0:
+- wad_tool: No longer hash bin in data folder. Instead hash file with basename that exceed 255 characters.
+
+[2025-06-23T13:30:37Z] by tarngaina:
+23062025.0:
+= pyRitoFile.anm: Added check limit for writing vec bank & quat bank.
+- ritobin: Fix error on reading comment.
+
+[2025-06-22T07:02:33Z] by tarngaina:
+22062025.0:
+- Removed ImageCMS from PIL module that causing false flagged as virus.
+- pyRitoFile.bin: Now read/write BINType.FILE value as wad hash.
+- winLT: Now save/load all UI check boxes.
+- ritobin:
++ Removed ritobin_cli.exe from tools, switch to the stolen ritobin.py.
++ Added context menu for convert between PY and BIN without extension.
+
+[2025-06-17T14:10:43Z] by tarngaina:
+17062025.0:
+- cslmao: Fixed bad mod's display image size.
+- Added new keybind F12: Take screenshot of LtMAO.
+
+[2025-06-16T15:32:53Z] by tarngaina:
+16062025.0:
+- bnk_tool:
++ Fixed auto play and stop previous sound not working together.
++ Fixed wrong parsing RandomOrSequenceContainer wems.
+
+[2025-06-14T15:15:32Z] by tarngaina:
+14062025.0:
+- pyRitoFile.mapgeo: Allow to write bush animated vertices in v13.
+- lemon_maya: mapgeo: Fix correctly import/export bush for v13 mapgeo (aram).
+
+[2025-06-09T14:07:57Z] by tarngaina:
+09062025.0:
+- hash_helper extract and pyntex now wont stop if error throw.
+
+[2025-06-06T15:39:34Z] by tarngaina:
+06062025.0:
+- wiwawe: Added ogg to wem conversion.
+- bnk_tool: Fix loading unknown bnk object type 20+ (items_global_events.bnk).
+- winLT: Added new ogg -> wem context, added convert audio files context on directory.
+
+[2025-06-04T15:20:33Z] by tarngaina:
+04062025.0:
+- pyntex: Needed 2x 4x dds now is not in junk files.
+- bnk_tool: * and / key is binded as expand all and collapse all items.
+
+[2025-06-01T12:56:06Z] by tarngaina:
+01062025.1:
+- Ritoddstex: Fixed binstream error.
+
+[2025-06-01T04:17:48Z] by tarngaina:
+01062025.0:
+- hapiBin: Fixed not working copy loadscreen+hud, copy vfx colors.
+
+[2025-05-31T16:10:29Z] by tarngaina:
+31052025.1:
+bnk_tool: Volume default now is 0.5.
+
+[2025-05-31T16:07:39Z] by tarngaina:
+31052025.0:
+- All fantome now zip with compression deflated 9.
+- pyntex: Added new context menu: Remove junk files.
+
+[2025-05-29T16:17:31Z] by tarngaina:
+29052025.0:
+- cslmao: Fix error when run mods.
+- pyntex: Added printing junk files.
+- pyRitoFile.wad: Fix hash function.
+
+[2025-05-25T16:56:00Z] by tarngaina:
+25052025.1:
+- Added encoding utf-8 in all open().
+- winLT: Added gui, removed buttons from setting tabs.
+- pyRitoFile.bin: Optimized unhash and finding items.
+- maskViewer: Fixed wrong get-item-data-function in save as.
+- bnk_tool: Fixed crash when select while holding Ctrl.
+
+[2025-05-13T10:28:52Z] by tarngaina:
+13052025.0:
+- no_skin: Fix near end champion wads not working.
+
+[2025-05-04T15:05:32Z] by tarngaina:
+04052025.1:
+- lemon_maya: mapgeo: Added extra attribute "Render Flags" in import, export as well as shelf info button. (this is the support for new riot Spirit Blossom SR map)
+- pyRitoFile.mapgeo: Fixed write mapgeo.texture_overrides, model.disable_backface_culling, model.render.
+
+[2025-05-04T08:47:21Z] by tarngaina:
+04052025.0:
+- lemon_maya:
++ mapgeo: Fixed bucket grid hash error on export.
++ Better logging info.
+
+[2025-05-01T15:39:08Z] by tarngaina:
+01052025.0:
+- qtGUI: Added minimize to tray button.
+- lemon_maya:
++ anm: Fix wrong import continous anm file.
++ skin: Added shelf button for loading textures.
+
+[2025-04-30T12:19:11Z] by tarngaina:
+30042025.1:
+- pyRitoFile: optimized building vector and quaternion bank.
+- Moved geb (guess events bnk) from wiwawe to bnk_tool.
+
+[2025-04-30T11:08:27Z] by tarngaina:
+30042025.0:
+- bnk_tool: Fixed sound played same after replace wem.
+- wad_tool: Fixed unpack empty folders.
+- lemon_maya: mapgeo: Fixed import, export materials not working, added lambert support.
+
+[2025-04-27T13:51:24Z] by tarngaina:
+27042025.1:
+- bnk_tool: Fixed more crash on autoplay.
+
+[2025-04-27T13:42:05Z] by tarngaina:
+27042025.0:
+- bnk_tool:
++ Added volume control.
++ Added toggle for stop previous playing sound.
++ Fixed error on replacing wem while autoplay.
++ Fixed crash on autoplay?
+- no_skin_full: Removed thread options, now log out duration of process on finish.
+- Ritoddstex, pyRitoFile.tex: Fixed wrong BGRA8 convert.
+
+[2025-04-26T13:53:36Z] by tarngaina:
+26042025.0:
+- Fixed readmes.
+- wiwawe: Added new tools to guess the events bnk name of input audio wpk or events bnk.
+- bnk_tool: Fix error loading ranseq container events (belveth).
+
+[2025-04-20T14:46:58Z] by tarngaina:
+20042025.0:
+- Improved readme and added readme for lemon3d.
+- bnk_tool: Fix error on display wems without container.
+- cslmao:
++ Auto converts file now only run on enabled mods.
++ Print message when proceed command while running overlay.
+- texsmart: Fix not working png2dds.
+- pyRitoFile: Fix wrong reading compressed anm duration.
+- lemon_fbx: Better anm dump.
+- lemon_maya:
++ Import material button on shelf now auto enable texture display.
++ Remove all pop ups when import/export files, change to ui file options instead.
++ skin: Change export/import select way to group of mesh+joints. Remove load as single combined mesh.
++ static object: Remove riot.sco, riot.scb method, added option for export scb with flags.
+
+[2025-04-13T13:00:23Z] by tarngaina:
+13042025.0:
+- lemon3d: skin: Fixed error on uv index export.
+- qtGUI:
++ Theme changes can now apply during runtime.
++ Accent can be faded between 2 color if using "_" in name.
+- cslmao:
++ Added toggle on/off all mods button.
++ Added search entry.
+
+[2025-04-09T16:06:04Z] by tarngaina:
+09042025.0:
+- cslmao: Fix auto convert settings not working.
+- lemon3d_maya: mapgeo:
++ Fix wrong material names export.
++ Added export float16 options (for tft maps).
+- pyRitoFile.mapgeo: Fix wrong bouding box write.
+
+[2025-04-08T13:43:35Z] by tarngaina:
+08042025.0:
+- lemon3d_maya: mapgeo
++ Fix wrong lightmap path export.
+- pyRitoFile:
++ anm: Fix wrong interpolate and wrong build uni vecs, quats.
++ mapgeo: Added write float16, fix write wrong bounding box, fix write wrong bucket grids.
+
+[2025-04-07T14:55:36Z] by tarngaina:
+07042025.1:
+- Minor fixes for error logging and ui texts.
+
+[2025-04-07T03:38:26Z] by tarngaina:
+07042025.0:
+- winLT: Added context menu for Ritoddstex on folder.
+- lemon3d_maya: Fixed wrong wrong riot skl export for new joints.
+
+[2025-04-06T16:31:58Z] by tarngaina:
+06042025.2:
+- wiwawe: No longer require to link wwise app and wwise project file.
+
+[2025-04-06T07:36:34Z] by tarngaina:
+06042025.1:
+- New tool wiwawe added for convert audio files. Convert wav to wem need link wwise folder and wproj file. Recommend wwise2024+.
+- winLT: Added new context menu:
++ WAV <-> WEM.
++ BNK/WPK <-> Folder.
+- bnk_tool:
++ Allow parsing a without events file selected.
++ Fixed error on extract wems.
++ Fixed wrong file type dialog on replace wem button.
+
+[2025-04-06T02:49:29Z] by tarngaina:
+06042025.0:
+- Optimized and changed leaguefile_inspector name to file_inspector.
+- cslmao:  Added settings for auto convert PY to BIN, DDS to TEX before run.
+- pyRitoFile.bnk: Added read SwitchContainer and MusicSwitchContainer.
+- bnk_tool: Fixed parsing SwitchContainer and MusicSwitchContainer in events file. (ekko_skin19)
+
+[2025-04-05T16:52:59Z] by tarngaina:
+05042025.0:
+- bnk_tool: Optimized various stuffs.
++ Remove all "No containers", wem without containers will display below containers.
++ Only display wems that exists inside selected audio bnk/wpk.
+
+[2025-04-03T23:57:56Z] by tarngaina:
+04042025.0:
+- bnk_tool: Added version 145.
+
+[2025-04-03T13:17:14Z] by tarngaina:
+03042025.0:
+- Redownload LtMAO button no longer auto restart the app, user must restart manually.
+- lemon3d_maya: mapgeo:
++ Remove setBaron and all thing related to setBaron.
++ New shelf button to edit selected mesh info such as layers, bucket hash,...
++ New shelf button to select all mesh that has non-zero bucket hash value.
+
+[2025-03-31T15:57:14Z] by tarngaina:
+31032025.0:
+- lemon3d_maya: Fixed wrong mirror x axis mapgeo.
+
+[2025-03-30T08:49:18Z] by tarngaina:
+30032025.1:
+- lemon3d_maya: Impoved import, export, check materials in mapgeo shelf.
+
+[2025-03-30T05:32:19Z] by tarngaina:
+30032025.0:
+- lemon3d_maya:
++ Added mapgeo shelf.
++ Fix export mapgeo version not working.
+
+[2025-03-27T13:36:53Z] by tarngaina:
+27032025.0:
+- winLT: Added new context menu: wad_tool: Unpack All WADs.
+- wad_tool:
++ Fixed error when unpack a wad contains a file that has same name with another folder. (Bootstrap.windows.wad.client)
++ No longer add known extension for file without extension, only add for hashed file.
+- lemon3d_maya:
++ Added import/export MAPGEO. TODO: fixes and shelves.
++ No longer use Lambert mats, swtich to Standard Surface instead.
+- pyRitoFile: mapgeo: Added read float16 (TFT maps), fixed errors on writing.
+
+[2025-03-22T16:40:52Z] by tarngaina:
+22032025.0:
+- qtGUI:
++ Close button now quit the app instead of close main window.
++ Fixed wrong Restore/Maximize button display.
++ Added bottom right corner size grip.
++ SafeThread daemon = True.
+- no_skin:
++ Fix all buttons not working for no reason.
++ Added multi threads.
+- pyRitoFile:
++ bin: move BINHelper static var to BinStream var for thread safe writing multi bins.
++ struct: Fix wrong Matrix4 __setitem__
+
+[2025-03-16T06:45:16Z] by tarngaina:
+12032025.0:
+- cslmao: Correct enable tft mod checkbox value. (was reversed)
+- hapiBin:
++ Select WAD: remove.
++ Select Folder: command now run on BINs inside WADs and Subfolders.
++ Fix backup throw error instead of overwrite.
++ Add new func: Copy loadscreen and hud iconds.
+- lemon_maya: SKN: Raise exception if uv is not in first set (uv_index is out of u_values range)
+- pyRitoFile: Replace IntEnum with Enum.
+- winLT: Added ritobin context menu for folder.
+
+[2025-03-12T13:25:45Z] by tarngaina:
+12032025.0:
+- hash_helper, pyntex: Fix not work with field option[string].
+
+[2025-03-09T11:32:41Z] by tarngaina:
+09032025.1:
+- lemon_fbx: Better dump/load fbx, correct fps support for anm.
+- winLT: add new context convert png to dds with mipmap 10.
+
+[2025-03-08T12:02:07Z] by tarngaina:
+08032025.1
+- lemon_fbx: Force export fbx with 30fps.
+
+[2025-03-08T11:38:36Z] by tarngaina:
+08032025.0:
+- lemon_fbx: Correct export/import animation duration.
+
+[2025-03-07T07:59:27Z] by tarngaina:
+07032025.0:
+- lemon_fbx: ANM:
++ Fixed rotation on blender fbx.
++ Fbx animation now need frame 0 as bindpose to export anms.
+
+[2025-03-06T11:44:27Z] by tarngaina:
+06032025.0:
+- lemon_fbx now support ANM.
+
+[2025-03-04T08:24:54Z] by tarngaina:
+04032025.1:
+- Finish lemon_maya.
+- Updated README.md.
+- Removed outdated tools: shrum, vo_helper.
+
+[2025-03-04T07:20:41Z] by tarngaina:
+04032025.0:
+- Finish cslmao.
+- Themes now can be added as new folder.
+
+[2025-03-02T16:36:22Z] by tarngaina:
+02032025.0:
+- Finish wad_tool, bnk_tool.
+- bnk_tool: Fix wrong load sfx bnk: safe check if RandomOrSequenceContainer.sound_ids is sound because it can be BlendContainer.
+- No longer use ogg file: wem2ogg, revorb. Replace with wav file: vgmstream.
+- No longer use pydub, ffmpeg to play audio. Replace with pyaudio.
+
+[2025-03-01T13:03:20Z] by tarngaina:
+01032025.1:
+- Finish lemon3d: lemon_fbx.
+
+[2025-03-01T06:36:21Z] by tarngaina:
+01032025.0:
+- Finish no_skin, sborf, mask_viewer.
+- hash_helper: Added size check and remove extracted hash function.
+- Added 3 themes.
+- Back to use threading.Thread instead of QThreadPool.
+
+[2025-02-27T09:03:49Z] by tarngaina:
+27022025.1:
+- Finish hapiBin, new func: Add vfx emitters.
+
+[2025-02-26T19:08:33Z] by tarngaina:
+27022025.0:
+- Finish hash_helper.
+
+[2025-02-26T08:39:13Z] by tarngaina:
+26022025.0:
+- Improved logging: Now use Qt Signal to write messages (Thread safe).
+- Various small improvements, less crashing.
+
+[2025-02-25T14:07:15Z] by tarngaina:
+250252025.3:
+- Built fbx-sdk for py 3.13.
+- Emoji windows 11 included instead of local emoji.
+- Correct sys stdout, sys stderr log with pythonw.exe.
+- Added setting page.
+
+[2025-02-24T17:35:40Z] by tarngaina:
+25022025.0:
+-LtMAO-hai: Added log, changelog, ddsmart.
+
+[2025-02-24T10:07:58Z] by tarngaina:
+24022025.1: LtMAO-hai
+-Upgrade to Cpython 3.13.
+-PySide6 instead of tkinter.
+
+[2025-01-24T23:53:46Z] by An:
+Merge pull request #15 from Leischii/master
+
+Bnk Tool: Add FeatureAudioDataProperties handling
+
+[2025-01-24T22:10:10Z] by Leischii:
+fix: formatting and version bump
+
+[2025-01-24T21:47:06Z] by Leischii:
+add: FeatureAudioDataProperties handling and bin findItems array function
+
+[2025-01-21T22:56:14Z] by An:
+Merge pull request #13 from GuiSaiUwU/master
+
+[😋] Fixed da change logger
+
+[2025-01-21T22:35:44Z] by GuiSaiUwU:
+fix changelog crashing by utf-8 chraracters (emotes) 😎
+
+[2025-01-18T00:28:43Z] by An:
+Create LICENSE
+
