@@ -1,14 +1,14 @@
 import os
 import os.path
+from os.path import (
+    join as join,
+    abspath as abs,
+    relpath as rel,
+    getsize as getsize,
+    exists as exists,
+    expanduser as expanduser
+)
 
-def join(path, *paths):
-    return os.path.join(path, *paths).replace('\\', '/')
-
-def abs(path):
-    return os.path.abspath(path).replace('\\', '/')
-
-def rel(path, start):
-    return os.path.relpath(path, start).replace('\\', '/')
 
 def ext(path, old, new):
     return path.removesuffix(old) + new

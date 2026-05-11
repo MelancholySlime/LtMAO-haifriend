@@ -17,12 +17,12 @@ class Log(QObject):
         self.statusbar_signal.connect(statusbar.showMessage)
 
     def write_log(self, msg):
-        msg = f'[{datetime.now().time()}] {msg}'
-        self.show_statusbar('🗒️ ' + msg)
+        msg = f'🗒️ [{datetime.now().time()}] {msg}'
+        self.show_statusbar(msg)
         self.write_logbox(msg)
         scrollbar = self.logbox.verticalScrollBar()
         scrollbar.setValue(scrollbar.maximum())
-    
+
     def write_logbox(self, msg):
         self.logbox_signal.emit(msg)
 
@@ -31,11 +31,11 @@ class Log(QObject):
 
 def link_main_window(logbox, statusbar):
     log = Log(logbox, statusbar)
-    
+
     class Writer():
         def write(self, msg):
-            msg = msg.strip().replace('\\', '/')
-            if msg != '':
+            msg = msg.strip()
+            if msg:
                 log.write_log(msg)
 
         def flush(self):
@@ -48,14 +48,14 @@ def link_main_window(logbox, statusbar):
 def link_splash(label):
     class Writer():
         def write(self, msg):
-            msg = msg.strip().replace('\\', '/')
-            if msg != '':
-                label.setText('🗒️ ' + msg) 
+            msg = msg.strip()
+            if msg:
+                label.setText('🗒️ ' + msg)
                 label.repaint()
-        
+
         def flush(self):
             pass
-          
-    writer = Writer() 
+
+    writer = Writer()
     sys.stdout = writer
     sys.stderr = writer

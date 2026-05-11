@@ -184,6 +184,103 @@ def build_cslmao(widget: QWidget):
     layout2.addWidget(dds2tex_checkbox)
     layout2.addStretch()
     show_layout.addLayout(layout2)
+    # bumpath preprocess
+    layout2 = QHBoxLayout()
+    bp_checkbox = QCheckBox()
+    bp_checkbox.setText('🍑 Enable BumPath Preprocess')
+    bp_checkbox.setChecked(setting.get('cslmao.bumpath_preprocess', False))
+    layout2.addWidget(bp_checkbox)
+    layout2.addStretch()
+    show_layout.addLayout(layout2)
+    # bumpath fields container
+    bp_fields_widget = QWidget()
+    bp_fields_layout = QVBoxLayout()
+    bp_fields_layout.setContentsMargins(20, 0, 0, 0)
+    # source folder
+    bp_row1 = QHBoxLayout()
+    bp_source_button = QToolButton()
+    bp_source_button.setText('📁 Source Folder')
+    bp_source_button.setMinimumWidth(130)
+    bp_row1.addWidget(bp_source_button)
+    bp_source_label = QLabel(setting.get('cslmao.bp_source_folder', ''))
+    bp_row1.addWidget(bp_source_label, stretch=1)
+    bp_fields_layout.addLayout(bp_row1)
+    def bp_select_source():
+        dialog = QFileDialog()
+        dirpath = dialog.getExistingDirectory(
+            widget,
+            'Select BumPath Source Folder',
+            setting.get('qtGUI.default_folder', '')
+        )
+        if dirpath != '':
+            bp_source_label.setText(dirpath)
+            setting.set('cslmao.bp_source_folder', dirpath)
+            setting.save()
+    bp_source_button.clicked.connect(bp_select_source)
+    # bin file
+    bp_row2 = QHBoxLayout()
+    bp_bin_button = QToolButton()
+    bp_bin_button.setText('📝 Bin')
+    bp_bin_button.setMinimumWidth(130)
+    bp_row2.addWidget(bp_bin_button)
+    bp_bin_label = QLabel(setting.get('cslmao.bp_bin_file', ''))
+    bp_row2.addWidget(bp_bin_label, stretch=1)
+    bp_fields_layout.addLayout(bp_row2)
+    def bp_select_bin():
+        dialog = QFileDialog()
+        filepath = dialog.getOpenFileName(
+            widget,
+            'Select BIN File',
+            setting.get('qtGUI.default_folder', ''),
+            'BIN Files (*.bin)'
+        )
+        if len(filepath[0]) > 0:
+            bp_bin_label.setText(filepath[0])
+            setting.set('cslmao.bp_bin_file', filepath[0])
+            setting.save()
+    bp_bin_button.clicked.connect(bp_select_bin)
+    # prefix
+    bp_row3 = QHBoxLayout()
+    bp_row3.addWidget(QLabel('🔗 Prefix:'))
+    bp_prefix_line = QLineEdit()
+    bp_prefix_line.setText(setting.get('cslmao.bp_prefix', 'bum'))
+    def bp_prefix_changed():
+        setting.set('cslmao.bp_prefix', bp_prefix_line.text())
+        setting.save()
+    bp_prefix_line.editingFinished.connect(bp_prefix_changed)
+    bp_row3.addWidget(bp_prefix_line, stretch=1)
+    bp_fields_layout.addLayout(bp_row3)
+    # bumed folder (output)
+    bp_row4 = QHBoxLayout()
+    bp_output_button = QToolButton()
+    bp_output_button.setText('📂 Bumed Folder')
+    bp_output_button.setMinimumWidth(130)
+    bp_row4.addWidget(bp_output_button)
+    bp_output_label = QLabel(setting.get('cslmao.bp_output_folder', ''))
+    bp_row4.addWidget(bp_output_label, stretch=1)
+    bp_fields_layout.addLayout(bp_row4)
+    def bp_select_output():
+        dialog = QFileDialog()
+        dirpath = dialog.getExistingDirectory(
+            widget,
+            'Select BumPath Output Folder',
+            setting.get('qtGUI.default_folder', '')
+        )
+        if dirpath != '':
+            bp_output_label.setText(dirpath)
+            setting.set('cslmao.bp_output_folder', dirpath)
+            setting.save()
+    bp_output_button.clicked.connect(bp_select_output)
+    # set fields widget
+    bp_fields_widget.setLayout(bp_fields_layout)
+    bp_fields_widget.setVisible(bp_checkbox.isChecked())
+    show_layout.addWidget(bp_fields_widget)
+    def bp_checkbox_cmd():
+        checked = bp_checkbox.isChecked()
+        setting.set('cslmao.bumpath_preprocess', checked)
+        setting.save()
+        bp_fields_widget.setVisible(checked)
+    bp_checkbox.clicked.connect(bp_checkbox_cmd)
 
     hide_widget = QWidget()
     hide_widget.setStyleSheet(qtwidgets.tab_stylesheet)
@@ -255,6 +352,7 @@ def build_cslmao(widget: QWidget):
     scrollarea = QScrollArea()
     scrollarea.setWidgetResizable(True)
     view_widget = QWidget()
+    view_widget.setObjectName('Round')
     view_layout = QGridLayout(scrollarea)
     view_layout.setContentsMargins(0, 0, 0, 0)
     view_widget.setLayout(view_layout)
@@ -608,12 +706,67 @@ def build_cslmao(widget: QWidget):
         edit_layout.mod = mod
 
 
+    # bumpath preprocess function
+    def runBumPathIfEnabled():
+        """Run BumPath as pre-step if checkbox is enabled. Returns True on success or skip, False on failure."""
+        if not bp_checkbox.isChecked():
+            return True
+        source_folder = bp_source_label.text()
+        bin_file = bp_bin_label.text()
+        prefix = bp_prefix_line.text()
+        output_folder = bp_output_label.text()
+        if not source_folder or not bin_file or not output_folder:
+            print('cslmao: Error: BumPath preprocess: Please fill all BumPath fields.')
+            return False
+        if not prefix:
+            print('cslmao: Error: BumPath preprocess: Prefix cannot be empty.')
+            return False
+        try:
+            print('cslmao: Status: Running BumPath preprocess...')
+            # clear output folder if not empty
+            if os.path.exists(output_folder) and os.listdir(output_folder):
+                import shutil
+                for item in os.listdir(output_folder):
+                    item_path = os.path.join(output_folder, item)
+                    if os.path.isdir(item_path):
+                        shutil.rmtree(item_path)
+                    else:
+                        os.remove(item_path)
+                print(f'cslmao: Status: Cleared output folder: {output_folder}')
+            bum = bumpath.Bum()
+            bum.add_source_dirs([source_folder])
+            # select the specified bin
+            for unify_file in bum.source_bins:
+                full_path, rel_path = bum.source_files[unify_file]
+                if os.path.abspath(full_path) == os.path.abspath(bin_file):
+                    bum.source_bins[unify_file] = True
+            if not any(bum.source_bins.values()):
+                print(f'cslmao: Error: BumPath preprocess: BIN file not found in source folder: {bin_file}')
+                return False
+            bum.scan()
+            # apply prefix to all editable entries
+            for entry_hash in bum.entry_prefix:
+                if bum.entry_prefix[entry_hash] != 'Uneditable':
+                    bum.entry_prefix[entry_hash] = prefix
+            bum.bum(output_folder, ignore_missing=True)
+            print('cslmao: Finish: BumPath preprocess completed.')
+            return True
+        except Exception as e:
+            print(f'cslmao: Error: BumPath preprocess failed: {e}')
+            import traceback
+            print(traceback.format_exc())
+            return False
+
     # run mods
     qtwidgets.make_overlay = None
     qtwidgets.run_overlay = None
     def run_mods():
         if qtwidgets.make_overlay == None and qtwidgets.run_overlay == None:
             def run_thrd():
+                # bumpath preprocess (optional)
+                if not runBumPathIfEnabled():
+                    run_button_smart.setText('🚀 Run')
+                    return
                 # convert files before we run
                 cslmao.convert_raw_files_before_run()
                 # run

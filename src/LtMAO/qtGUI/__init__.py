@@ -1,5 +1,5 @@
 from PySide6.QtCore import (
-    Qt, 
+    Qt,
     QEvent,
     QRect,
 )
@@ -11,20 +11,19 @@ from PySide6.QtGui import (
     QColor,
     QBrush,
     QShortcut,
-    QKeySequence
+    QKeySequence,
 )
-    
 from PySide6.QtWidgets import (
-    QApplication, 
+    QApplication,
     QSplashScreen,
-    QMainWindow, 
-    QWidget, 
+    QMainWindow,
+    QWidget,
     QBoxLayout,
-    QVBoxLayout, 
+    QVBoxLayout,
     QHBoxLayout,
     QLabel,
     QStatusBar,
-    QToolButton, 
+    QToolButton,
     QSizeGrip,
     QSystemTrayIcon,
 )
@@ -73,66 +72,83 @@ def init_theme(theme_name):
     # stylesheets
     qtwidgets.window_stylesheet = f"""
         QWidget {{
-            background-color: rgba(0, 0, 0, 127);        
-        }}  
+            background-color: rgba(0, 0, 0, 127);
+        }}
+        QWidget#Round {{
+            border-radius: 8;
+        }}
         QLabel {{
             background-color: transparent;
-        }}  
+
+        }}
         QScrollBar:handle {{
-            background-color: {qtwidgets.accent_color}; 
+            background-color: {qtwidgets.accent_color};
+            border-radius: 3;
         }}
         QScrollArea {{
             border: none;
             background-color: transparent;
-        }}         
+        }}
         QToolButton {{
             min-height: 30;
             border-bottom: 2px solid {qtwidgets.accent_color};
+            border-radius: 8;
         }}
-        QToolButton:hover {{ 
-            background-color: {qtwidgets.accent_color}; 
+        QToolButton:hover {{
+            background-color: {qtwidgets.accent_color};
         }}
-        QToolButton:checked {{ 
-            background-color: {qtwidgets.accent_color}; 
+        QToolButton:checked {{
+            background-color: {qtwidgets.accent_color};
         }}
         QCheckBox {{
             min-height: 30;
+            border-radius: 8;
         }}
         QCheckBox:hover {{
-            border-bottom-color: {qtwidgets.accent_color};  
-        }} 
+            border-bottom-color: {qtwidgets.accent_color};
+        }}
         QLineEdit {{
             min-height: 30;
             selection-background-color: {qtwidgets.accent_color};
+            border-radius: 8;
         }}
         QLineEdit:focus {{
-            border-color: {qtwidgets.accent_color};  
+            border-color: {qtwidgets.accent_color};
         }}
         QPlainTextEdit {{
             selection-background-color: {qtwidgets.accent_color};
+            border-radius: 8;
         }}
         QPlainTextEdit:focus {{
-            border-color: {qtwidgets.accent_color};  
+            border-color: {qtwidgets.accent_color};
+        }}
+        QComboBox {{
+            border-radius: 8;
         }}
         QComboBox:hover, QComboBox:selected, QComboBox:on {{
             border-color: {qtwidgets.accent_color};
         }}
         QComboBox QAbstractItemView {{
             border-color: {qtwidgets.accent_color};
+            border-radius: 8;
+        }}
+        QComboBox QAbstractItemView:item {{
+            border-radius: 8;
         }}
         QComboBox QAbstractItemView:item:hover, QComboBox QAbstractItemView:item:selected {{
-            background-color: {qtwidgets.accent_color};    
+            background-color: {qtwidgets.accent_color};
         }}
         QTabWidget:pane {{
             border: none;
-        }}   
+        }}
         QTabWidget:tab-bar {{
-            background-color: rgba(0, 0, 0, 127);        
-        }}    
+            background-color: rgba(0, 0, 0, 127);
+        }}
         QTabBar:tab {{
             min-height: 30;
             min-width: 120;
-            background-color: rgba(0, 0, 0, 127);        
+            background-color: rgba(0, 0, 0, 127);
+            border-radius: 8;
         }}
         QTabBar:tab:selected {{
             color: #ffffff;
@@ -140,27 +156,31 @@ def init_theme(theme_name):
             background-color: {qtwidgets.accent_color};
         }}
         QTabBar:scroller {{
-            width: 50px; 
+            width: 50px;
         }}
         QTableView {{
             selection-background-color: {qtwidgets.accent_color};
+            border-radius: 8;
         }}
         QHeaderView:section {{
             background-color: transparent;
         }}
         QTableView QTableCornerButton::section {{
-            background-color: rgba(0, 0, 0, 127);  
+            background-color: rgba(0, 0, 0, 127);
         }}
         QHeaderView:section:checked {{
             color: #ffffff;
             background-color: {qtwidgets.accent_color};
+        }}
+        QTreeView {{
+            border-radius: 8;
         }}
         QTreeView:item:selected  {{
             background-color: {qtwidgets.accent_color};
         }}
         QToolTip {{
             background-color: rgba(0, 0, 0, 127);
-            border: none;   
+            border: none;
         }}
         QSlider:handle {{
             background-color: {qtwidgets.accent_color};
@@ -185,15 +205,22 @@ def init_theme(theme_name):
             background-color: rgb(255, 0, 0);
             border-bottom: 2px solid {qtwidgets.accent_color};
         }}
+        QStatusBar {{
+            border-radius: 8;
+        }}
     """
     qtwidgets.tab_stylesheet = f"""
         QWidget {{
             background-color: transparent;
-        }}     
+        }}
+        QWidget#Round {{
+            border-radius: 8;
+        }}
         QToolButton {{
             min-height: 30;
             background-color: rgba(0, 0, 0, 127);
             border-bottom: 2px solid {qtwidgets.accent_color};
+            border-radius: 8;
         }}
         QLabel {{
             background-color: transparent;
@@ -201,28 +228,51 @@ def init_theme(theme_name):
         QLineEdit {{
             min-height: 30;
             background-color: rgba(0, 0, 0, 127);
+            border-radius: 8;
         }}
         QPlainTextEdit {{
             background-color: rgba(0, 0, 0, 127);
+            border-radius: 8;
         }}
-        QToolButton:hover {{ 
-            background-color: {qtwidgets.accent_color}; 
+        QToolButton:hover {{
+            background-color: {qtwidgets.accent_color};
         }}
-        QToolButton:checked {{ 
-            background-color: {qtwidgets.accent_color}; 
+        QToolButton:checked {{
+            background-color: {qtwidgets.accent_color};
         }}
         QTabBar::tab {{
             border-bottom: 2px solid {qtwidgets.accent_color};
+            border-radius: 8;
         }}
         QComboBox {{
             background-color: rgba(0, 0, 0, 127);
+            border-radius: 8;
         }}
         QComboBox QAbstractItemView {{
             background-color: rgba(0, 0, 0, 255);
+            border-radius: 8;
         }}
     """
-    qtwidgets.mod_enable_stylesheet = f'QWidget#CslmaoModWidgetEnable {{ border: 2px solid {qtwidgets.accent_color}; }} QLabel#CslmaoModWidgetEnable {{ background-color: {qtwidgets.accent_color}; }}'
-    qtwidgets.mod_disable_stylesheet = f'QWidget#CslmaoModWidgetDisable {{ border: 2px solid rgb(0, 0, 0); }} QLabel#CslmaoModWidgetDisable {{ background-color: rgb(0, 0, 0); }}'
+    qtwidgets.mod_enable_stylesheet = f"""
+        QWidget#CslmaoModWidgetEnable {{
+            border: 2px solid {qtwidgets.accent_color};
+            border-radius: 8;
+        }}
+        QLabel#CslmaoModWidgetEnable {{
+            background-color: {qtwidgets.accent_color};
+            border-radius: 8;
+        }}
+    """
+    qtwidgets.mod_disable_stylesheet = f"""
+        QWidget#CslmaoModWidgetDisable {{
+            border: 2px solid rgb(0, 0, 0);
+            border-radius: 8;
+        }}
+        QLabel#CslmaoModWidgetDisable {{
+            background-color: rgb(0, 0, 0);
+            border-radius: 8;
+        }}
+    """
     return theme_paths
 
 def check_version(label):
