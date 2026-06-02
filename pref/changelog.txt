@@ -1,5 +1,19 @@
-[2026-06-02T13:30:00Z] by github-actions[bot]:
-02062026.0: cslmao - Replace timestamp IDs with short sequential IDs. Mod folder names are now human-readable; no datetime/UUID/random suffix appended. get_path() returns mod.path only. load_mods() preserves existing folder names. set_info() keeps stable mod.id across metadata updates.
+[2026-06-02T13:21:12Z] by github-actions[bot]:
+02062026.0: Bump version to today, update changelog for cslmao refactor
+
+[2026-06-02T13:13:07Z] by github-actions[bot]:
+cslmao: Replace timestamp IDs with sequential short IDs
+
+- generate_id() now returns a class-level sequential counter ("1", "2", ...)
+  initialized from max(existing JSON ids) at load time.
+- get_path() returns self.path only; ID stays internal (memory + JSON).
+- create_mod() detects path collision and auto-suffixes "Name 1", "Name 2".
+- set_info() keeps mod.id stable across metadata updates; renames folder
+  only when the name actually changes, with collision suffix against
+  other mods.
+- load_mods() adopts orphan raw/ folders with their existing names;
+  no os.rename at startup, no timestamp appended.
+- Remove unused datetime import.
 
 [2026-05-11T17:01:29Z] by github-actions[bot]:
 11052026.0: Fix version check and changelog sync to use correct remote repo
@@ -559,15 +573,4 @@ bnk_tool: Volume default now is 0.5.
 26022025.0:
 - Improved logging: Now use Qt Signal to write messages (Thread safe).
 - Various small improvements, less crashing.
-
-[2025-02-25T14:07:15Z] by tarngaina:
-250252025.3:
-- Built fbx-sdk for py 3.13.
-- Emoji windows 11 included instead of local emoji.
-- Correct sys stdout, sys stderr log with pythonw.exe.
-- Added setting page.
-
-[2025-02-24T17:35:40Z] by tarngaina:
-25022025.0:
--LtMAO-hai: Added log, changelog, ddsmart.
 
