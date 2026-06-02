@@ -1,7 +1,8 @@
-import os, os.path, json, datetime, shutil
+import os, os.path, json, shutil
 from . import lepath, setting, Ritoddstex, tools
 
 block_and_stream_process_output = tools.block_and_stream_process_output
+
 
 class MOD:
     __slots__ = (
@@ -13,16 +14,49 @@ class MOD:
         self.path = path
         self.enable = enable
         self.profile = profile
-        self.info = info 
+        self.info = info
         self.image = image
 
     def get_path(self):
-        return self.path + f' {self.id}'
+        # Folder name = visible mod name. ID is internal-only.
+        return self.path
 
     mods = []
-    @staticmethod
-    def generate_id():
-        return datetime.datetime.now().strftime('%Y%m%d%H%M%S%f')
+    # Sequential short ID counter. Persisted implicitly via max(ids) at load.
+    _id_counter = 0
+
+    @classmethod
+    def generate_id(cls):
+        cls._id_counter += 1
+        return str(cls._id_counter)
+
+    @classmethod
+    def _init_id_counter(cls, existing_ids):
+        # Initialize counter to max numeric id in existing list (or 0).
+        max_id = 0
+        for raw_id in existing_ids:
+            try:
+                n = int(str(raw_id).strip())
+                if n > max_id:
+                    max_id = n
+            except (TypeError, ValueError):
+                continue
+        cls._id_counter = max_id
+
+
+def _existing_paths():
+    return {m.path for m in MOD.mods}
+
+
+def _next_unique_path(base):
+    # If base is free, return it. Otherwise return "base 1", "base 2", ...
+    existing = _existing_paths()
+    if base not in existing:
+        return base
+    i = 1
+    while f'{base} {i}' in existing:
+        i += 1
+    return f'{base} {i}'
 
 
 local_dir = './pref/cslmao'
@@ -37,12 +71,11 @@ def add_mod(mod):
     MOD.mods.append(mod)
 
 def create_mod(path, enable, profile):
-    m = MOD(MOD.generate_id(), path, enable, profile)
-    check_path = m.get_path()
-    for mod in MOD.mods:
-        if mod.get_path() == check_path:
-            raise Exception(
-                f'cslmao: Error: Create mod: A mod with path: {check_path} already existed in profile {mod.profile}.')
+    # If requested path collides with an existing mod, append a numeric suffix.
+    final_path = _next_unique_path(path)
+    if final_path != path:
+        print(f'cslmao: Note: Path "{path}" already exists. Using "{final_path}".')
+    m = MOD(MOD.generate_id(), final_path, enable, profile)
     return m
 
 def create_mod_folder(mod):
@@ -85,18 +118,29 @@ def get_info(mod):
 
 def set_info(mod):
     old_path = mod.get_path()
-    mod.path = f'{mod.info["Name"]}'
-    mod.id = MOD.generate_id()
-    os.rename(
-        lepath.abs(lepath.join(raw_dir, old_path)),
-        lepath.abs(lepath.join(raw_dir, mod.get_path()))
-    )
+    new_path = f'{mod.info["Name"]}'
+    # Resolve collision with OTHER mods only (preserve this mod's own slot).
+    other_paths = {m.path for m in MOD.mods if m is not mod}
+    candidate = new_path
+    if candidate in other_paths:
+        i = 1
+        while f'{new_path} {i}' in other_paths:
+            i += 1
+        candidate = f'{new_path} {i}'
+        print(f'cslmao: Note: Name "{new_path}" already exists. Using "{candidate}".')
+    mod.path = candidate
+    # Keep mod.id stable across metadata updates.
+    if old_path != mod.path:
+        os.rename(
+            lepath.abs(lepath.join(raw_dir, old_path)),
+            lepath.abs(lepath.join(raw_dir, mod.path))
+        )
     if mod.info != None:
-        info_file = lepath.join(raw_dir, mod.get_path(), 'META', 'info.json')
+        info_file = lepath.join(raw_dir, mod.path, 'META', 'info.json')
         with open(info_file, 'w+', encoding='utf-8') as f:
             json.dump(mod.info, f, indent=4, ensure_ascii=False)
     if mod.image != None:
-        image_file = lepath.join(raw_dir, mod.get_path(), 'META', 'image.png')
+        image_file = lepath.join(raw_dir, mod.path, 'META', 'image.png')
         if os.path.exists(mod.image):
             shutil.copy(mod.image, image_file)
         if os.path.exists(image_file):
@@ -123,7 +167,9 @@ def load_mods():
         with open(mod_file, 'w+', encoding='utf-8') as f:
             json.dump({}, f, indent=4, ensure_ascii=False)
         print(f'cslmao: Finish: Reset {mod_file}')
-    # load outside mod file
+    # Initialize sequential ID counter from existing JSON ids.
+    MOD._init_id_counter([m.id for m in MOD.mods])
+    # Adopt orphan folders in raw/ without renaming them.
     existed_mod_path = [mod.get_path() for mod in MOD.mods]
     for dirname in os.listdir(raw_dir):
         info_file = lepath.join(raw_dir, dirname, 'META', 'info.json')
@@ -131,15 +177,12 @@ def load_mods():
             continue
         if dirname in existed_mod_path:
             continue
-        try: 
+        try:
             mod_id = MOD.generate_id()
-            mod_path = dirname
-            mod = MOD(id=mod_id, path=mod_path, enable=False, profile='0')
-            os.rename(
-                lepath.join(raw_dir, mod_path),
-                lepath.join(raw_dir, mod.get_path())
-            )
+            # Preserve existing folder name. Do not append timestamp.
+            mod = MOD(id=mod_id, path=dirname, enable=False, profile='0')
             MOD.mods.append(mod)
+            existed_mod_path.append(dirname)
         except Exception as e:
             print(f'cslmao: Error: Can not load {dirname}: {e}')
             import traceback
